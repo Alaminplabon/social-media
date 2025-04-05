@@ -12,9 +12,12 @@ const router = Router();
 
 router.post(
   '/create',
+  // upload.fields([
+  //   { name: 'image', maxCount: 1 },
+  //   { name: 'banner', maxCount: 5 },
+  // ]),
   upload.single('image'),
   parseData(),
-  validateRequest(userValidation?.guestValidationSchema),
   userController.createUser,
 );
 

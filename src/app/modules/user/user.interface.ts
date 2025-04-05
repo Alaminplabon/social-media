@@ -3,11 +3,13 @@ import { Model, Types } from 'mongoose';
 export interface IUser {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // [x: string]: any;
-  _id?: Types.ObjectId;
   status: string;
   username: string;
   name: string;
+  firstName: string;
+  lastName: string;
   email: string;
+  bio: string;
   phoneNumber: string;
   password: string;
   gender: 'Male' | 'Female' | 'Others';
@@ -16,6 +18,16 @@ export interface IUser {
   role: string;
   isGoogleLogin: boolean;
   address?: string;
+  country?: string;
+  street?: string;
+  state?: string;
+  tokenAmount?: number;
+  city?: string;
+  zipCode?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  isEmailVerified: boolean;
+  isPhoneVerified: boolean;
   needsPasswordChange: boolean;
   passwordChangedAt?: Date;
   isDeleted: boolean;

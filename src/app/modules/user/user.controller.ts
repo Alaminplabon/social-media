@@ -3,7 +3,7 @@ import catchAsync from '../../utils/catchAsync';
 import { userService } from './user.service';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
-import { uploadToS3 } from '../../utils/s3';
+import { uploadManyToS3, uploadToS3 } from '../../utils/s3';
 import { otpServices } from '../otp/otp.service';
 import { User } from './user.models';
 import { UploadedFiles } from '../../interface/common.interface';
@@ -11,19 +11,41 @@ import { storeFile } from '../../utils/fileHelper';
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   // return res.send({data: req.body})
- if (req.file) {
-   req.body.image = storeFile('profile', req?.file?.filename);
- }
-  // if (req.files) {
-  //   const { image } = req.files as UploadedFiles;
 
-  //   if (image) {
-  //     req.body.image = await uploadToS3({
-  //       file: req.file,
-  //       fileName: `images/user/profile/${Math.floor(100000 + Math.random() * 900000)}`,
-  //     });
+  //   if (req.files) {
+  //     const { image, banner } = req.files as UploadedFiles;
+
+  //     if (req.files) {
+  //       const { image } = req.files as UploadedFiles;
+
+  //     if (image) {
+  //       req.body.image = await uploadToS3({
+  //         file: image[0],
+  //         fileName: `images/user/profile/${Math.floor(100000 + Math.random() * 900000)}`,
+  //       });
+  //     }
+
+  //     if (banner) {
+  //       const imgsArray: { file: any; path: string; key?: string }[] = [];
+
+  //       banner?.map(async image => {
+  //         imgsArray.push({
+  //           file: image,
+  //           path: `images/banner`,
+  //         });
+  //       });
+
+  //       req.body.banner = await uploadManyToS3(imgsArray);
+  //     }
   //   }
   // }
+
+  if (req.file) {
+    req.body.image = await uploadToS3({
+      file: req.file, // Ensure it's req.file for a single file
+      fileName: `images/user/profile/${Math.floor(100000 + Math.random() * 900000)}`,
+    });
+  }
   const result = await userService.createUser(req.body);
   const sendOtp = await otpServices.resendOtp(result?.email);
   sendResponse(res, {

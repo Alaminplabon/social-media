@@ -23,7 +23,6 @@ const userSchema: Schema<IUser> = new Schema(
     },
     phoneNumber: {
       type: String,
-      required: true,
       default: null,
     },
     password: {
@@ -46,6 +45,10 @@ const userSchema: Schema<IUser> = new Schema(
     image: {
       type: String,
       default: null,
+    },
+    tokenAmount: {
+      type: Number,
+      default: 0,
     },
     role: {
       type: String,
@@ -78,6 +81,30 @@ const userSchema: Schema<IUser> = new Schema(
         type: Boolean,
         default: false,
       },
+    },
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    zipCode: {
+      type: String,
+    },
+    street: {
+      type: String,
     },
   },
   {
