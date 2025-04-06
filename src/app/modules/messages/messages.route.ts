@@ -5,7 +5,7 @@ import { messagesValidation } from './messages.validation';
 import multer, { memoryStorage } from 'multer';
 import parseData from '../../middleware/parseData';
 import auth from '../../middleware/auth';
-import { USER_ROLE } from '../user/user.constants'; 
+import { USER_ROLE } from '../user/user.constants';
 import fileUpload from '../../middleware/fileUpload';
 const upload = fileUpload('./public/uploads/messages');
 
@@ -44,6 +44,11 @@ router.delete(
   '/:id',
   auth(USER_ROLE.user, USER_ROLE.admin),
   messagesController.deleteMessages,
+);
+router.get(
+  '/uniqueUser',
+  auth(USER_ROLE.user, USER_ROLE.admin),
+  messagesController.getMessagesByUniqueUser,
 );
 
 router.get(

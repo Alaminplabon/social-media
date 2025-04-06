@@ -21,6 +21,7 @@ router.patch('/update/:id', postController.updatepost);
 router.delete('/:id', postController.deletepost);
 
 router.get('/:id', postController.getpostById);
-router.get('/', postController.getAllpost);
+
+router.get('/', auth(USER_ROLE.user), postController.getAllpost);
 
 export const postRoutes = router;

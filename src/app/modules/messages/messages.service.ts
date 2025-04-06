@@ -7,6 +7,7 @@ import { IMessages } from './messages.interface';
 import Chat from '../chat/chat.models';
 import { chatService } from '../chat/chat.service';
 import { io } from '../../../server';
+import { Types } from 'mongoose';
 
 const createMessages = async (payload: IMessages) => {
   const alreadyExists = await Chat.findOne({
@@ -95,6 +96,28 @@ const getMessagesByChatId = async (chatId: string) => {
   return result;
 };
 
+// Get messages by chat ID
+const getMessagesByUniqueUser = async (id: string) => {
+  const uniqueUsers = await Message.aggregate([
+    {
+      $match: {
+        receiver: new Types.ObjectId(id),
+        seen: false,
+      },
+    },
+    {
+      $group: {
+        _id: '$sender',
+      },
+    },
+    {
+      $count: 'uniqueUserCount',
+    },
+  ]);
+
+  return uniqueUsers.length > 0 ? uniqueUsers[0].uniqueUserCount : 0;
+};
+
 // Get message by ID
 const getMessagesById = async (id: string) => {
   const result = await Message.findById(id).populate([
@@ -161,4 +184,5 @@ export const messagesService = {
   getAllMessages,
   deleteMessages,
   seenMessage,
+  getMessagesByUniqueUser,
 };

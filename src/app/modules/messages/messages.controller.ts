@@ -54,6 +54,19 @@ const getMessagesByChatId = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getMessagesByUniqueUser = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req?.user?.userId;
+    const result = await messagesService.getMessagesByUniqueUser(id);
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'Messages retrieved successfully',
+      data: result,
+    });
+  },
+);
+
 // Get message by ID
 const getMessagesById = catchAsync(async (req: Request, res: Response) => {
   const result = await messagesService.getMessagesById(req.params.id);
@@ -141,4 +154,5 @@ export const messagesController = {
   updateMessages,
   deleteMessages,
   seenMessage,
+  getMessagesByUniqueUser
 };

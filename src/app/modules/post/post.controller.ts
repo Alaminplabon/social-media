@@ -34,7 +34,8 @@ const createpost = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllpost = catchAsync(async (req: Request, res: Response) => {
-  const posts = await postService.getAllpost(req.query);
+  const userId = req?.user?.userId;
+  const posts = await postService.getAllpost(userId,req.query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
